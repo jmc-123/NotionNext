@@ -1,8 +1,5 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
- "headers": [],
-  "git": {
-    "deploymentEnabled": false
-  }
+ "headers": []
 }
