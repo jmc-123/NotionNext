@@ -1,7 +1,7 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
-"$schema": "https://openapi.vercel.sh/vercel.json",
+ "headers": [],
   "git": {
     "deploymentEnabled": false
   }
