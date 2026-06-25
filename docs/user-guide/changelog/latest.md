@@ -1,53 +1,73 @@
 # 最新版本与更新日志
 
-> 当前主线：**4.10.2**（见根目录 `package.json`）
+> 当前主线：**4.10.3**（见根目录 `package.json`）
 
-## 4.10.2 发布要点
+## 4.10.3 发布要点
 
-本版本重点提升静态导出与 Cloudflare Pages 等平台的构建效率，并修复 Giscus 登录回跳后仍提示登录的问题。
+本版本重点优化 Magzine 主题首页与字体资源加载，降低首屏阻塞、减少布局抖动，并补齐构建缓存与 changelog 提醒相关的维护能力。
 
-### 构建性能优化
+### Magzine 主题性能与稳定性
 
-- 新增 Notion 页面正文的版本化构建缓存：正文缓存键会带上文章 `lastEditedDate`，未更新过的文章在下一次构建中可直接复用上次缓存。
-- 构建开始时仍会重新拉取 Notion 数据库索引，确保新文章、隐藏文章、删除文章、slug 与更新时间可以及时生效。
-- 构建清理策略改为只清理数据库索引、静态路径与当前构建 session 等临时缓存，默认保留版本化 `page_block` 正文缓存。
-- `prefetchAllBlockMaps` 会优先检查版本化正文缓存；缓存命中时不再请求 Notion 页面正文。
-- 单篇文章页、公告页和全文搜索读取正文缓存时统一使用版本化缓存键，避免预热缓存和页面渲染缓存不一致。
-- 新增 `NOTION_BUILD_CACHE_PURGE_DATA=true`，需要彻底清理构建缓存时可手动开启。
+- 优化 Magzine 首页首屏图片加载策略，减少 LCP 图片延迟。
+- 调整 Magzine 首页图片、广告位与文章卡片布局，降低图片、广告和卡片内容加载时的布局抖动。
+- 补齐 Magzine 多个组件的稳定尺寸约束，让列表、信息卡、页脚和文章信息区在资源加载前后更稳定。
 
-### Giscus 评论修复
+### 字体与图标加载优化
 
-- 修复 Giscus OAuth 回跳后 `?giscus=...` 参数被页面容器过早清理的问题。
-- 现在 Giscus 脚本会先消费 OAuth 回调 token 并写入 `localStorage`，再清理地址栏参数，避免登录后仍显示“登录后可以评论”。
+- Font Awesome 样式改为延后加载，避免阻塞首屏关键渲染。
+- 在用户有交互意图后再加载 Font Awesome，减少非必要首屏资源。
+- 预留 Font Awesome 图标布局空间，修复延迟加载期间图标可见性和页面跳动问题。
+- 将 Font Awesome 字体文件改为本地自托管，减少第三方字体 CDN 依赖。
+- Web Font 仅在配置启用时加载，未配置自定义字体的站点不再请求额外字体资源。
 
-### 同期主线修复
+### 构建缓存与数据过滤
 
-本轮 4.10.2 发布窗口也同步记录了 4.10.1 之后主线上的多项修复：
+- 稳定本地构建缓存文件锁，降低并发构建或重复读取缓存时的异常风险。
+- 优化 filtered collection 数据处理，减少无关 Notion collection 数据进入页面数据。
+- 补充缓存锁、内部链接转换与 Notion 数据格式相关测试，覆盖本轮缓存和数据过滤调整。
 
-- 修复嵌入式 Notion collection view 数据未过滤导致页面数据膨胀、无关集合记录泄露到页面 props 的问题。
-- 修复 Notion 新结构中 `sync_block` 的 `content` ID 数组解析问题，避免同步块内容缺失。
-- 修复没有 `properties.title` 的 quote block 渲染异常，提升 Notion 块结构兼容性。
-- 修复数据库页面解析中视图筛选条件因短 ID / UUID 格式不一致而失效的问题。
-- 修复 Fuwari 主题首次渲染时主题色相未立即应用的问题，避免初屏色彩与配置不一致。
-- 修复 Magzine 主题推荐标签默认值处理，避免未配置推荐标签时推荐逻辑异常。
+### 文档与维护体验
+
+- 文档站首页和导航加入最近更新提示能力，方便维护者发现新 changelog 与重要文档更新。
+- 更新开发者首页、愿景路线图与性能优化计划，记录本轮性能优化和后续维护方向。
+
+### 参与者
+
+- [@tangly1024](https://github.com/tangly1024)：本版本 12 个提交。
+
+### 提交范围
+
+从 `v4.10.2` 到 `v4.10.3`：
+
+- `8f685096` docs: surface changelog unread updates
+- `9922643f` Optimize Font Awesome stylesheet loading
+- `35f332d5` Improve magzine homepage performance
+- `560d04e2` Optimize magzine LCP image loading
+- `1e34875b` Stabilize build cache locks and filtered collection data
+- `941cf310` Improve magzine image and ad layout stability
+- `a9525fff` Defer Font Awesome from critical path
+- `2362c9c2` Load web fonts only when configured
+- `ff2c5073` Load Font Awesome after user intent
+- `1e4e2de4` Reserve Font Awesome icon layout
+- `2a1dda67` Fix delayed Font Awesome visibility
+- `df71ae22` Self-host Font Awesome for menu icons
 
 ### 适用场景
 
-- Cloudflare Pages、Netlify、Vercel 或自托管 CI 中使用 `yarn build` / `yarn export`。
-- 文章数量较多，但每次发布只修改少量 Notion 页面。
-- 构建日志里频繁出现大量 `from:prefetch` / `getPage` 请求，或者部署时间主要消耗在 Notion 页面正文拉取。
+- 使用 Magzine 主题，首页图片、广告位或文章卡片较多的站点。
+- 希望减少 Font Awesome / Web Font 对首屏渲染影响的站点。
+- Cloudflare Pages、Netlify、Vercel 或自托管 CI 中依赖构建缓存的站点。
 
-### 使用说明
+### 升级说明
 
-- Cloudflare Pages 请确保 Build cache 已开启，平台才能在下一次构建恢复 `.next/cache`。
-- 正常情况下无需设置新环境变量。
-- 如果怀疑构建缓存损坏，临时设置 `NOTION_BUILD_CACHE_PURGE_DATA=true` 后重新部署一次即可清空持久正文缓存。
+- 正常升级无需新增环境变量。
+- 如果站点依赖 Font Awesome 图标，请升级后确认图标显示正常。
+- 如果使用自定义 Web Font，请确认相关字体配置仍按预期启用。
 
 ### 验证
 
-- `npx eslint lib\db\notion\getPostBlocks.js lib\build\prefetch.js lib\db\SiteDataApi.js pages\search\[keyword]\index.js pages\search\[keyword]\page\[page].js next.config.js`：通过。
-- `node -e "require('./next.config.js')"`：通过。
 - `git diff --check`：通过。
+- `node -e "const p=require('./package.json'); if (p.version !== '4.10.3') process.exit(1)"`：通过。
 
 ## 如何升级
 
