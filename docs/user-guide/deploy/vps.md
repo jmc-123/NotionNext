@@ -312,7 +312,7 @@ echo "source ~/.nvm/nvm.sh" &gt;&gt; ~/.bashrc
 source ~/.bashrc
 
 # 3. 安装 nodejs ， 这里举例使用 Node 22（与官方 README 要求一致），其它版本请自行按需选择
-nvm install 20
+nvm install 22
 ```
 ::: tip 提示
 题外话：

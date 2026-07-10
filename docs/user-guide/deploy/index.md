@@ -29,7 +29,7 @@
 
 ## 环境要求（2026）
 
-- **Node.js 22**（见 `.nvmrc`）
+- **Node.js 22**（见 `.nvmrc` / `.node-version`）。Node 20 已无法安装当前依赖，Cloudflare、Netlify、VPS、Docker 等构建环境都应同步使用 Node 22。
 - **Yarn**：`yarn` → `yarn build` / `yarn export`
 - 必配：`NOTION_PAGE_ID`
 
