@@ -1,4 +1,6 @@
 /* eslint-disable react/no-unknown-property */
+import { siteConfig } from '@/lib/config'
+import CONFIG from './config'
 
 /**
  * 此处样式只对当前主题生效
@@ -6,7 +8,18 @@
  * @returns
  */
 const Style = () => {
+  const primaryColor = siteConfig('STARTER_COLOR_PRIMARY', '#3758f9', CONFIG)
+  const primaryHoverColor = siteConfig('STARTER_COLOR_PRIMARY_HOVER', '#1b44c8', CONFIG)
+  const darkColor = siteConfig('STARTER_COLOR_DARK', '#111928', CONFIG)
+  const mutedTextColor = siteConfig('STARTER_COLOR_TEXT_MUTED', '#637381', CONFIG)
+
   return <style jsx global>{`
+  #theme-starter {
+    --starter-color-primary: ${primaryColor};
+    --starter-color-primary-hover: ${primaryHoverColor};
+    --starter-color-dark: ${darkColor};
+    --starter-color-text-muted: ${mutedTextColor};
+  }
 
   #theme-starter .sticky{
     position: fixed;
@@ -208,6 +221,36 @@ const Style = () => {
   /* 正文（Notion 文章 / 仪表盘页）：限制最大宽度，兼顾表格/图片与阅读行宽 */
   #theme-starter #article-wrapper {
     max-width: 64rem;
+  }
+
+  #theme-starter .bg-primary,
+  #theme-starter .signUpBtn,
+  #theme-starter .common-carousel .swiper-button-next:hover,
+  #theme-starter .common-carousel .swiper-button-prev:hover {
+    background-color: var(--starter-color-primary) !important;
+  }
+
+  #theme-starter .hover\\:bg-primary:hover,
+  #theme-starter .hover\\:bg-blue-dark:hover,
+  #theme-starter .signUpBtn:hover {
+    background-color: var(--starter-color-primary-hover) !important;
+  }
+
+  #theme-starter .text-primary,
+  #theme-starter .hover\\:text-primary:hover,
+  #theme-starter .sticky #navbarCollapse li > a:hover,
+  #theme-starter .sticky #navbarCollapse li .ud-menu-scroll.active,
+  #theme-starter .sticky .loginBtn:hover {
+    color: var(--starter-color-primary) !important;
+  }
+
+  #theme-starter .bg-dark,
+  #theme-starter .dark\\:bg-dark:is(.dark *) {
+    background-color: var(--starter-color-dark) !important;
+  }
+
+  #theme-starter .text-body-color {
+    color: var(--starter-color-text-muted) !important;
   }
 
   /* 全站 container：xl 及以上略窄于满屏，接近主题默认版心（1140px） */

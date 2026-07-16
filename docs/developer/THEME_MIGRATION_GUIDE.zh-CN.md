@@ -111,6 +111,33 @@
 
 避免在组件内部散落“魔法常量”。
 
+### 5.1 主题颜色变量
+
+早期主题大量使用 Tailwind CSS 工具类，是为了降低开发成本、快速验证布局与交互。现在主题框架已经更成熟，新的主题和后续重构应把颜色从 Tailwind 固定色名中抽离出来，改用主题自己的语义色变量，避免 `blue`、`indigo`、`yellow` 这类类名在代码里同时承担“主色”“强调色”“深色模式高亮”等不同含义。
+
+推荐规则：
+
+- 颜色配置放在 `themes/<theme>/config.js`，使用主题前缀，例如 `HEO_COLOR_PRIMARY`、`HEO_COLOR_PRIMARY_DARK`、`HEO_COLOR_BG`。
+- `themes/<theme>/style.js` 读取配置后，在当前主题根节点下定义 CSS 变量，例如 `#theme-heo { --heo-color-primary: ... }`，不要直接写到全局 `:root`。
+- 组件 className 使用语义变量，例如 `bg-[var(--heo-color-primary)]`、`text-[var(--heo-color-text)]`，不要再新增无语义的固定色 class。
+- Notion Config 与环境变量可以覆盖这些键；主题 `config.js` 只保留默认值。
+- 如果一个主题只有一个主色，可以只暴露 `THEME_COLOR_PRIMARY` 等少量配置；如果主题层次丰富，可以继续补充背景、卡片、边框、正文、次级文字、成功/警告等变量。
+- 深色模式专用色必须在展示名中显式写成“深色模式：主色 / 页面背景 / 卡片背景 / 边框”。如果历史配置键已经叫 `ACCENT`，但实际只在深色模式中承担主色职责，调色板展示名应写成“深色模式：主色”，不要继续笼统叫“强调色”。
+
+建议的最小色板：
+
+| 语义 | 示例配置键 | 用途 |
+| --- | --- | --- |
+| 主色 | `HEO_COLOR_PRIMARY` | 主按钮、选中态、重点链接 |
+| 主色悬停 | `HEO_COLOR_PRIMARY_HOVER` | 主按钮和重点元素 hover |
+| 深色模式：主色 | `HEO_COLOR_PRIMARY_DARK` 或历史兼容键 `HEO_COLOR_ACCENT` | 深色模式下的主按钮、选中态、重点链接 |
+| 辅助强调色 | `HEO_COLOR_ACCENT` | 非主色的徽标、装饰、特殊高亮 |
+| 页面背景 | `HEO_COLOR_BG` | 页面底色 |
+| 卡片背景 | `HEO_COLOR_CARD` | 卡片、面板、浮层 |
+| 边框 | `HEO_COLOR_BORDER` | 卡片边框、分割线 |
+| 主文字 | `HEO_COLOR_TEXT` | 标题和正文 |
+| 次级文字 | `HEO_COLOR_TEXT_SECONDARY` | 摘要、元信息、辅助说明 |
+
 ## 6）推荐迁移流程
 
 1. 先做最小可运行骨架（`LayoutBase`、`LayoutIndex`、`LayoutSlug` 等）。
@@ -189,6 +216,8 @@ const CONTACT_EMAIL = siteConfig('CONTACT_EMAIL')
 
 读取逻辑由 **`getThemeSwitchMeta()`**（与文件同目录导出）统一合并默认值；**`components/ThemeSwitch.js`** 只依赖该函数，主题目录内无需重复维护简介。
 
+主题切换面板后续也承载调色板入口。主题可以在 manifest 或主题元数据中声明自己支持的颜色配置项，面板读取后展示“配置键 + 当前色值 + 色块 + 复制值”。Fuwari 这类单主色主题可以只展示一个色项；Heo 这类复杂主题可以展示完整色板，帮助站长直接把调整后的色值写回 Notion Config 或 `themes/<theme>/config.js`。
+
 ### 8.3 文档与其他约定
 
 - 主题详细说明仍建议写在 **`docs/developer/themes/`**（见下文「高还原度检查清单」中的文档放置约定）。
@@ -236,7 +265,8 @@ const CONTACT_EMAIL = siteConfig('CONTACT_EMAIL')
   - 从顶部右上角调色按钮触发
   - 使用悬浮面板，不放在侧栏
   - 实时预览 + 本地记忆
-  - 显示可复制的 hue/hex，便于站长回填 `config.js`
+  - 显示每个色号的配置键、语义名称和当前色值，便于站长回填 Notion Config 或 `config.js`
+  - 单主色主题只展示主色；多色主题展示完整色板，不强行套用同一数量的色项
 - **主题文档放置位置**：
   - 避免把 Markdown 文档直接放在 `themes/<theme>/` 下（部分构建链路会把主题目录当运行时模块处理）
   - 主题说明建议统一放在 `docs/developer/themes/`

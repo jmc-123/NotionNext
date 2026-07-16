@@ -1,13 +1,25 @@
 /* eslint-disable react/no-unknown-property */
+import { siteConfig } from '@/lib/config'
+import CONFIG from './config'
 /**
  * 此处样式只对当前主题生效
  * 此处不支持tailwindCSS的 @apply 语法
  * @returns
  */
 const Style = () => {
+  const backgroundColor = siteConfig('NAV_COLOR_BG', '#fbfbfb', CONFIG)
+  const textColor = siteConfig('NAV_COLOR_TEXT', '#8c8c8c', CONFIG)
+  const textHoverColor = siteConfig('NAV_COLOR_TEXT_HOVER', '#000000', CONFIG)
+
   return <style jsx global>{`
+    #theme-onenav {
+        --nav-color-bg: ${backgroundColor};
+        --nav-color-text: ${textColor};
+        --nav-color-text-hover: ${textHoverColor};
+    }
+
     body {
-        background-color: #fbfbfb;
+        background-color: ${backgroundColor};
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
         -webkit-font-smoothing: antialiased;
     }
@@ -31,10 +43,10 @@ const Style = () => {
         font-size: 15px;
         font-weight: 600;
         line-height: 2;
-        color: #8c8c8c;
+        color: var(--nav-color-text);
     }
     .nav-menu span:hover{
-        color: #000000;
+        color: var(--nav-color-text-hover);
     }
     .nav-menu span>i{
         width: 18px;

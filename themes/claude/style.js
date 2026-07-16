@@ -1,9 +1,18 @@
 /* eslint-disable react/no-unknown-property */
+import { siteConfig } from '@/lib/config'
+import CONFIG from './config'
 /**
  * Claude Theme — 模仿 Claude Code Docs 的设计风格
  * 包含浅色和深色模式
  */
 const Style = () => {
+  const accentColor = siteConfig('CLAUDE_COLOR_ACCENT', '#DA7756', CONFIG)
+  const accentHoverColor = siteConfig('CLAUDE_COLOR_ACCENT_HOVER', '#C06042', CONFIG)
+  const backgroundColor = siteConfig('CLAUDE_COLOR_BG', '#ffffff', CONFIG)
+  const secondaryBackgroundColor = siteConfig('CLAUDE_COLOR_BG_SECONDARY', '#F3F3EE', CONFIG)
+  const textColor = siteConfig('CLAUDE_COLOR_TEXT', '#1A1A1A', CONFIG)
+  const borderColor = siteConfig('CLAUDE_COLOR_BORDER', '#E5E5E0', CONFIG)
+
   return (
     <style jsx global>{`
       /* ========================================
@@ -51,16 +60,16 @@ const Style = () => {
       :root {
         --claude-gh-blue-bg: rgb(9, 105, 218);
         --claude-gh-blue-bg-rgb: 9 105 218;
-        --claude-bg: #fff;
-        --claude-bg-secondary: #F3F3EE;
-        --claude-text-primary: #1A1A1A;
+        --claude-bg: ${backgroundColor};
+        --claude-bg-secondary: ${secondaryBackgroundColor};
+        --claude-text-primary: ${textColor};
         --claude-text-strong: var(--claude-text-primary);
         --tw-prose-code: #111827;
         --claude-text-secondary: #5C5C5C;
         --claude-text-tertiary: #8C8C8C;
-        --claude-border: #E5E5E0;
-        --claude-accent: #DA7756;
-        --claude-accent-hover: #C06042;
+        --claude-border: ${borderColor};
+        --claude-accent: ${accentColor};
+        --claude-accent-hover: ${accentHoverColor};
         --claude-sidebar-bg: var(--claude-bg-secondary);
         --claude-sidebar-active-bg: rgba(218, 119, 86, 0.08);
         --claude-sidebar-active-text: var(--claude-accent);

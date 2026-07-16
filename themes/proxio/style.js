@@ -1,4 +1,6 @@
 /* eslint-disable react/no-unknown-property */
+import { siteConfig } from '@/lib/config'
+import CONFIG from './config'
 
 /**
  * 此处样式只对当前主题生效
@@ -6,11 +8,24 @@
  * @returns
  */
 const Style = () => {
+    const primaryColor = siteConfig('PROXIO_COLOR_PRIMARY', '#3758f9', CONFIG)
+    const primaryHoverColor = siteConfig('PROXIO_COLOR_PRIMARY_HOVER', '#1b44c8', CONFIG)
+    const backgroundColor = siteConfig('PROXIO_COLOR_BG', '#ffffff', CONFIG)
+    const darkColor = siteConfig('PROXIO_COLOR_DARK', '#121212', CONFIG)
+    const mutedTextColor = siteConfig('PROXIO_COLOR_TEXT_MUTED', '#637381', CONFIG)
+
     return <style jsx global>{`
+    #theme-proxio {
+        --proxio-color-primary: ${primaryColor};
+        --proxio-color-primary-hover: ${primaryHoverColor};
+        --proxio-color-bg: ${backgroundColor};
+        --proxio-color-dark: ${darkColor};
+        --proxio-color-text-muted: ${mutedTextColor};
+    }
 
     // 底色
     body{
-        background-color: white;
+        background-color: ${backgroundColor};
     }
     .dark body{
         background-color: black;
@@ -18,7 +33,7 @@ const Style = () => {
 
     #theme-proxio .bg-primary {
         --tw-bg-opacity: 1;
-        background-color: #121212;
+        background-color: var(--proxio-color-dark);
     }
     
     @media (min-width: 540px) {
@@ -259,6 +274,36 @@ const Style = () => {
   height: auto;
   width: auto;
 }
+
+  #theme-proxio .bg-primary,
+  #theme-proxio .signUpBtn,
+  #theme-proxio .common-carousel .swiper-button-next:hover,
+  #theme-proxio .common-carousel .swiper-button-prev:hover {
+    background-color: var(--proxio-color-primary) !important;
+  }
+
+  #theme-proxio .hover\\:bg-primary:hover,
+  #theme-proxio .hover\\:bg-blue-dark:hover,
+  #theme-proxio .signUpBtn:hover {
+    background-color: var(--proxio-color-primary-hover) !important;
+  }
+
+  #theme-proxio .text-primary,
+  #theme-proxio .hover\\:text-primary:hover,
+  #theme-proxio .sticky #navbarCollapse li > a:hover,
+  #theme-proxio .sticky #navbarCollapse li .ud-menu-scroll.active,
+  #theme-proxio .sticky .loginBtn:hover {
+    color: var(--proxio-color-primary) !important;
+  }
+
+  #theme-proxio .bg-dark,
+  #theme-proxio .dark\\:bg-dark:is(.dark *) {
+    background-color: var(--proxio-color-dark) !important;
+  }
+
+  #theme-proxio .text-body-color {
+    color: var(--proxio-color-text-muted) !important;
+  }
   `}</style>
 }
 

@@ -1,17 +1,32 @@
 /* eslint-disable react/no-unknown-property */
+import { siteConfig } from '@/lib/config'
+import CONFIG from './config'
 /**
  * 此处样式只对当前主题生效
  * 此处不支持tailwindCSS的 @apply 语法
  * @returns
  */
 const Style = () => {
+  const backgroundColor = siteConfig('FUKASAWA_COLOR_BG', '#eeedee', CONFIG)
+
   return <style jsx global>{`
+    #theme-fukasawa {
+        --fukasawa-color-bg: ${backgroundColor};
+        background-color: var(--fukasawa-color-bg);
+    }
+
     // 底色
     body{
-        background-color: #eeedee;
+        background-color: var(--fukasawa-color-bg);
     }
     .dark body{
         background-color: black;
+    }
+
+    #theme-fukasawa .bg-white,
+    #theme-fukasawa .bg-gray-50,
+    #theme-fukasawa .bg-gray-100 {
+        background-color: var(--fukasawa-color-bg) !important;
     }
     
     /* fukasawa的首页响应式分栏 */

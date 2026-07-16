@@ -50,7 +50,7 @@ export const BlogListScroll = props => {
   useEffect(() => {
     window.addEventListener('scroll', scrollTrigger, { passive: true })
     return () => {
-      scrollTrigger.cancel()
+      scrollTrigger.cancel?.()
       window.removeEventListener('scroll', scrollTrigger)
     }
   }, [scrollTrigger])

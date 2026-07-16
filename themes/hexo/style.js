@@ -8,20 +8,21 @@ import CONFIG from './config'
  * @returns
  */
 const Style = () => {
-  // 从配置中获取主题色，如果没有配置则使用默认值 #928CEE
-  const themeColor = siteConfig('HEXO_THEME_COLOR', '#928CEE', CONFIG)
+  const legacyThemeColor = siteConfig('HEXO_THEME_COLOR', '#928CEE', CONFIG)
+  const primaryColor = siteConfig('HEXO_COLOR_PRIMARY', legacyThemeColor, CONFIG)
 
   return (
     <style jsx global>{`
-      :root {
-        --theme-color: ${themeColor};
+      #theme-hexo {
+        --hexo-color-primary: ${primaryColor};
+        --theme-color: var(--hexo-color-primary);
       }
 
       // 底色
-      #theme-hexo body {
+      body {
         background-color: #f5f5f5;
       }
-      .dark #theme-hexo body {
+      .dark body {
         background-color: black;
       }
 

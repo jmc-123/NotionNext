@@ -2,34 +2,44 @@
  * Endspace Theme - Global Styles (JSX)
  * Light Industrial / Endfield-inspired aesthetic
  */
+import { siteConfig } from '@/lib/config'
+import CONFIG from './config'
 
 export const Style = () => {
+  const bgBaseColor = siteConfig('ENDSPACE_COLOR_BG_BASE', '#fafafa', CONFIG)
+  const surfaceColor = siteConfig('ENDSPACE_COLOR_SURFACE', '#ffffff', CONFIG)
+  const textColor = siteConfig('ENDSPACE_COLOR_TEXT', '#18181b', CONFIG)
+  const textSecondaryColor = siteConfig('ENDSPACE_COLOR_TEXT_SECONDARY', '#52525b', CONFIG)
+  const accentColor = siteConfig('ENDSPACE_COLOR_ACCENT', '#FBFB45', CONFIG)
+  const accentDimColor = siteConfig('ENDSPACE_COLOR_ACCENT_DIM', 'rgba(251, 251, 69, 0.15)', CONFIG)
+  const borderColor = siteConfig('ENDSPACE_COLOR_BORDER', '#e4e4e7', CONFIG)
+
   return (
     <style jsx global>{`
       /* ============================================
          CSS Custom Properties - Light Industrial Theme
          ============================================ */
-      :root {
+      #theme-endspace {
         /* Ethereal Whites & Grays */
-        --endspace-bg-base: #fafafa;
-        --endspace-bg-primary: #ffffff;
+        --endspace-bg-base: ${bgBaseColor};
+        --endspace-bg-primary: ${surfaceColor};
         --endspace-bg-secondary: #f4f4f5;
         --endspace-bg-tertiary: #e4e4e7;
         
         /* Dark Text (High Contrast) */
-        --endspace-text-primary: #18181b;
-        --endspace-text-secondary: #52525b;
+        --endspace-text-primary: ${textColor};
+        --endspace-text-secondary: ${textSecondaryColor};
         --endspace-text-muted: #a1a1aa;
         
         /* Accents (Subtle Industrialism) -> Converted to Yellow Suite */
-        --endspace-accent-yellow: #FBFB45;
-        --endspace-accent-yellow-dim: rgba(251, 251, 69, 0.15);
-        --endspace-accent-cyan: #FBFB45; /* OVERRIDE: Cyan usage -> Yellow 500 */
-        --endspace-accent-cyan-dim: rgba(251, 251, 69, 0.1); /* OVERRIDE: Cyan dim -> Yellow dim */
+        --endspace-accent-yellow: ${accentColor};
+        --endspace-accent-yellow-dim: ${accentDimColor};
+        --endspace-accent-cyan: ${accentColor}; /* OVERRIDE: Cyan usage -> Yellow 500 */
+        --endspace-accent-cyan-dim: ${accentDimColor}; /* OVERRIDE: Cyan dim -> Yellow dim */
         
         /* Borders & Lines */
-        --endspace-border-base: #e4e4e7;
-        --endspace-border-active: #FBFB45; /* Active border -> Yellow */
+        --endspace-border-base: ${borderColor};
+        --endspace-border-active: ${accentColor}; /* Active border -> Yellow */
         --endspace-grid-color: rgba(0,0,0,0.03);
         
         /* Shadows - Enhanced 3D Depth */
@@ -42,6 +52,29 @@ export const Style = () => {
           0 8px 16px rgba(0, 0, 0, 0.06),
           0 16px 32px rgba(0, 0, 0, 0.04),
           0 0 0 1px var(--endspace-accent-yellow);
+      }
+
+      #theme-endspace .bg-\\[\\#FBFB45\\],
+      #theme-endspace .bg-\\[\\#FBFB46\\],
+      #theme-endspace .hover\\:bg-\\[\\#FBFB46\\]:hover,
+      #theme-endspace .focus\\:bg-\\[\\#FBFB46\\]:focus {
+        background-color: var(--endspace-accent-yellow) !important;
+      }
+
+      #theme-endspace .bg-\\[\\#FBFB46\\]\\/10 {
+        background-color: var(--endspace-accent-yellow-dim) !important;
+      }
+
+      #theme-endspace .border-\\[\\#FBFB46\\],
+      #theme-endspace .hover\\:border-\\[\\#FBFB46\\]:hover,
+      #theme-endspace .focus\\:border-\\[\\#FBFB46\\]:focus {
+        border-color: var(--endspace-accent-yellow) !important;
+      }
+
+      #theme-endspace .text-\\[\\#FBFB46\\],
+      #theme-endspace .hover\\:text-\\[\\#FBFB46\\]:hover,
+      #theme-endspace .focus\\:text-\\[\\#FBFB46\\]:focus {
+        color: var(--endspace-accent-yellow) !important;
       }
 
       /* ============================================
@@ -107,7 +140,7 @@ export const Style = () => {
 
       .endspace-search-highlight {
         color: #a16207;
-        background: linear-gradient(90deg, rgba(251, 251, 69, 0.2), rgba(251, 191, 36, 0.35));
+        background: linear-gradient(90deg, var(--endspace-accent-yellow-dim), var(--endspace-accent-yellow-dim));
         padding: 0 0.25rem;
         box-decoration-break: clone;
         -webkit-box-decoration-break: clone;
@@ -668,7 +701,7 @@ export const Style = () => {
       
       .ef-button:hover::before {
         height: 70%;
-        background-color: #FBFB45;
+        background-color: var(--endspace-accent-yellow);
       }
 
       /* ============================================
@@ -1019,7 +1052,7 @@ export const Style = () => {
         display: block;
         width: 4px;
         height: 18px;
-        background-color: #FBFB45; /* Yellow */
+        background-color: var(--endspace-accent-yellow); /* Yellow */
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); /* Rectangle */
       }
@@ -1027,7 +1060,7 @@ export const Style = () => {
       .ef-btn:hover .ef-btn-indicator {
         width: 12px;
         height: 12px;
-        background-color: #FBFB45;
+        background-color: var(--endspace-accent-yellow);
         clip-path: polygon(0 0, 100% 50%, 0 100%); /* Triangle */
       }
       
@@ -1046,8 +1079,8 @@ export const Style = () => {
       }
 
       .archive-filter-btn:hover {
-        background-color: #FBFB46 !important;
-        border-color: #FBFB46;
+        background-color: var(--endspace-accent-yellow) !important;
+        border-color: var(--endspace-accent-yellow);
         box-shadow: var(--endspace-shadow-hover);
       }
 

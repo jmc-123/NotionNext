@@ -1,19 +1,28 @@
 /* eslint-disable react/no-unknown-property */
+import { siteConfig } from '@/lib/config'
+import CONFIG from './config'
 /**
  * ThoughtLite 风格：仅作用于 #theme-thoughtlite
  * 设计为 CSS 变量 + 少量全局子选择器，便于与 Notion 正文协同。
  */
 const Style = () => {
+  const backgroundColor = siteConfig('THOUGHTLITE_COLOR_BG', '#faf9f7', CONFIG)
+  const surfaceColor = siteConfig('THOUGHTLITE_COLOR_SURFACE', '#ffffff', CONFIG)
+  const textColor = siteConfig('THOUGHTLITE_COLOR_TEXT', '#1a1a1a', CONFIG)
+  const mutedColor = siteConfig('THOUGHTLITE_COLOR_MUTED', '#6b6b6b', CONFIG)
+  const borderColor = siteConfig('THOUGHTLITE_COLOR_BORDER', '#e8e6e3', CONFIG)
+  const accentColor = siteConfig('THOUGHTLITE_COLOR_ACCENT', '#2563eb', CONFIG)
+
   return (
     <style jsx global>{`
       #theme-thoughtlite {
-        --tl-bg: #faf9f7;
-        --tl-surface: #ffffff;
-        --tl-text: #1a1a1a;
-        --tl-muted: #6b6b6b;
+        --tl-bg: ${backgroundColor};
+        --tl-surface: ${surfaceColor};
+        --tl-text: ${textColor};
+        --tl-muted: ${mutedColor};
         --tl-faint: #a3a3a3;
-        --tl-border: #e8e6e3;
-        --tl-accent: #2563eb;
+        --tl-border: ${borderColor};
+        --tl-accent: ${accentColor};
         --tl-accent-soft: rgba(37, 99, 235, 0.08);
         --tl-radius: 10px;
         --tl-font-display: ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
