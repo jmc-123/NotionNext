@@ -74,7 +74,7 @@ const Header = props => {
     window.addEventListener('scroll', scrollTrigger, { passive: true })
     return () => {
       window.removeEventListener('scroll', scrollTrigger)
-      scrollTrigger.cancel()
+      scrollTrigger.cancel?.()
     }
   }, [scrollTrigger])
 
