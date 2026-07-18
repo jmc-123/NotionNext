@@ -117,7 +117,7 @@ Older themes use many Tailwind CSS utility color classes because that made early
 
 Recommended pattern:
 
-- Put color defaults in `themes/<theme>/config.js` with a theme prefix, for example `HEO_COLOR_PRIMARY`, `HEO_COLOR_PRIMARY_DARK`, `HEO_COLOR_BG`.
+- Put color defaults in `themes/<theme>/config.js` with a theme prefix, for example `HEO_COLOR_PRIMARY`, `HEO_COLOR_ACCENT`, `HEO_COLOR_BG`.
 - Read them in `themes/<theme>/style.js` and define scoped CSS variables on the current theme root, for example `#theme-heo { --heo-color-primary: ... }`; avoid writing theme tokens to global `:root`.
 - Components should use semantic variables such as `bg-[var(--heo-color-primary)]` and `text-[var(--heo-color-text)]` instead of adding more non-semantic fixed color classes.
 - Notion Config and environment variables may override these keys; theme `config.js` provides defaults only.
@@ -129,8 +129,7 @@ Minimum palette:
 | --- | --- | --- |
 | Primary | `HEO_COLOR_PRIMARY` | Main buttons, selected states, important links |
 | Primary hover | `HEO_COLOR_PRIMARY_HOVER` | Main hover states |
-| Dark mode: primary | `HEO_COLOR_PRIMARY_DARK` or legacy-compatible `HEO_COLOR_ACCENT` | Primary actions, selected states, key links in dark mode |
-| Accent | `HEO_COLOR_ACCENT` | Non-primary badges, decorative emphasis, special highlights |
+| Accent | `HEO_COLOR_ACCENT` | Secondary highlights, badges, decorative emphasis |
 | Page background | `HEO_COLOR_BG` | Body/page background |
 | Card background | `HEO_COLOR_CARD` | Cards, panels, floating surfaces |
 | Border | `HEO_COLOR_BORDER` | Card borders, dividers |

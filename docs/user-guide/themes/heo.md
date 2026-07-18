@@ -38,9 +38,9 @@ HEO 主题开始支持语义化颜色配置。早期主题中大量使用 Tailwi
 | 配置项 | 默认值 | 影响范围 |
 | --- | --- | --- |
 | `HEO_COLOR_PRIMARY` | `#4f65f0` | 主按钮、选中态、信息卡主背景、重点链接 |
-| `HEO_COLOR_PRIMARY_HOVER` | `#4f46e5` | 主色：hover、信息卡内按钮 |
+| `HEO_COLOR_PRIMARY_HOVER` | `#4f46e5` | 主色 hover、信息卡内按钮 |
 | `HEO_COLOR_PRIMARY_TEXT` | `#ffffff` | 主色背景上的文字 |
-| `HEO_COLOR_ACCENT` | `#dca846` | 深色模式：主色、徽标和辅助高亮 |
+| `HEO_COLOR_ACCENT` | `#dca846` | 深色模式强调色、徽标和辅助高亮 |
 | `HEO_COLOR_BG` | `#f7f9fe` | 浅色模式页面背景 |
 | `HEO_COLOR_BG_DARK` | `#18171d` | 深色模式页面背景 |
 | `HEO_COLOR_CARD` | `#ffffff` | 浅色模式卡片背景 |

@@ -117,12 +117,14 @@
 
 推荐规则：
 
-- 颜色配置放在 `themes/<theme>/config.js`，使用主题前缀，例如 `HEO_COLOR_PRIMARY`、`HEO_COLOR_PRIMARY_DARK`、`HEO_COLOR_BG`。
+- 颜色配置放在 `themes/<theme>/config.js`，使用主题前缀，例如 `HEO_COLOR_PRIMARY`、`HEO_COLOR_ACCENT`、`HEO_COLOR_BG`。
 - `themes/<theme>/style.js` 读取配置后，在当前主题根节点下定义 CSS 变量，例如 `#theme-heo { --heo-color-primary: ... }`，不要直接写到全局 `:root`。
 - 组件 className 使用语义变量，例如 `bg-[var(--heo-color-primary)]`、`text-[var(--heo-color-text)]`，不要再新增无语义的固定色 class。
 - Notion Config 与环境变量可以覆盖这些键；主题 `config.js` 只保留默认值。
-- 如果一个主题只有一个主色，可以只暴露 `THEME_COLOR_PRIMARY` 等少量配置；如果主题层次丰富，可以继续补充背景、卡片、边框、正文、次级文字、成功/警告等变量。
-- 深色模式专用色必须在展示名中显式写成“深色模式：主色 / 页面背景 / 卡片背景 / 边框”。如果历史配置键已经叫 `ACCENT`，但实际只在深色模式中承担主色职责，调色板展示名应写成“深色模式：主色”，不要继续笼统叫“强调色”。
+- 所有内置主题至少暴露主色、页面背景、卡片背景、主文字和边框，并分别提供浅色与深色两套配置；主题实际使用了次级文字、强调色或 hover 色时，也要纳入调色板。
+- 深色配置键在浅色键后追加 `_DARK`，例如 `HEO_COLOR_TEXT_DARK`。两套配置必须映射到独立基础变量，再由当前模式选择活动变量，避免切换模式后串色。
+- manifest 只负责声明，不能代替实现；CSS 变量必须被组件真实消费，控制台修改后应立即可见。
+- 迁移时沿用原主题色值作为默认值，不能因为接入调色板改变原版视觉。
 
 建议的最小色板：
 
@@ -130,8 +132,7 @@
 | --- | --- | --- |
 | 主色 | `HEO_COLOR_PRIMARY` | 主按钮、选中态、重点链接 |
 | 主色悬停 | `HEO_COLOR_PRIMARY_HOVER` | 主按钮和重点元素 hover |
-| 深色模式：主色 | `HEO_COLOR_PRIMARY_DARK` 或历史兼容键 `HEO_COLOR_ACCENT` | 深色模式下的主按钮、选中态、重点链接 |
-| 辅助强调色 | `HEO_COLOR_ACCENT` | 非主色的徽标、装饰、特殊高亮 |
+| 强调色 | `HEO_COLOR_ACCENT` | 辅助高亮、徽标、特殊装饰 |
 | 页面背景 | `HEO_COLOR_BG` | 页面底色 |
 | 卡片背景 | `HEO_COLOR_CARD` | 卡片、面板、浮层 |
 | 边框 | `HEO_COLOR_BORDER` | 卡片边框、分割线 |
@@ -216,7 +217,7 @@ const CONTACT_EMAIL = siteConfig('CONTACT_EMAIL')
 
 读取逻辑由 **`getThemeSwitchMeta()`**（与文件同目录导出）统一合并默认值；**`components/ThemeSwitch.js`** 只依赖该函数，主题目录内无需重复维护简介。
 
-主题切换面板后续也承载调色板入口。主题可以在 manifest 或主题元数据中声明自己支持的颜色配置项，面板读取后展示“配置键 + 当前色值 + 色块 + 复制值”。Fuwari 这类单主色主题可以只展示一个色项；Heo 这类复杂主题可以展示完整色板，帮助站长直接把调整后的色值写回 Notion Config 或 `themes/<theme>/config.js`。
+主题控制台承载调色板入口。主题在 manifest 中声明颜色配置项，面板读取后展示“配置键 + 当前色值 + 色块 + 复制值”。所有内置主题都必须提供浅色、深色两套基础色；复杂主题继续暴露次级文字、强调色、hover、状态色等实际使用的颜色，帮助站长直接把调整结果写回 Notion Config 或 `themes/<theme>/config.js`。
 
 ### 8.3 文档与其他约定
 

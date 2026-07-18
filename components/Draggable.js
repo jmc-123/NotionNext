@@ -37,6 +37,7 @@ export const Draggable = ({ children, stick, handleClassName }) => {
       const drag = draggableRef.current
       if (!drag) return
       event = e(event)
+      if (event.target?.closest?.('button, a, input, select, textarea')) return
 
       if (inDragBox(event, drag)) {
         if (

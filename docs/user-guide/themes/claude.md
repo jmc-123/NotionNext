@@ -38,7 +38,7 @@
 
 ### Claude 主题调色
 
-Claude 支持通过语义色变量调整辅助强调色、背景、文字和边框：
+Claude 支持通过语义色变量调整强调色、背景、文字和边框：
 
 ```js
 CLAUDE_COLOR_ACCENT: '#DA7756',
@@ -57,8 +57,8 @@ CLAUDE_COLOR_BORDER: '#E5E5E0'
 
 | 配置键 | 说明 |
 | --- | --- |
-| `CLAUDE_COLOR_ACCENT` | 辅助强调色 |
-| `CLAUDE_COLOR_ACCENT_HOVER` | 辅助强调色：hover |
+| `CLAUDE_COLOR_ACCENT` | 强调色 |
+| `CLAUDE_COLOR_ACCENT_HOVER` | 强调色 hover |
 | `CLAUDE_COLOR_BG` | 页面背景色 |
 | `CLAUDE_COLOR_BG_SECONDARY` | 次级背景色 |
 | `CLAUDE_COLOR_TEXT` | 主文字色 |

@@ -24,7 +24,7 @@ NotionNext搭建的影视分享网站
 
 ### Movie 主题调色
 
-Movie 支持通过语义色变量调整主色和深色模式主色：
+Movie 支持通过语义色变量调整主色和深色主色：
 
 ```js
 MOVIE_COLOR_PRIMARY: '#2563eb',

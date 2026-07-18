@@ -1,15 +1,12 @@
 /* eslint-disable react/no-unknown-property */
-import { siteConfig } from '@/lib/config'
 import CONFIG from './config'
+import { themeConsoleStyle } from '@/lib/themeConsoleStyle'
 /**
  * 此处样式只对当前主题生效
  * 此处不支持 tailwindCSS 的 @apply 语法
  * @returns
  */
 const Style = () => {
-  const primaryColor = siteConfig('TYPOGRAPHY_COLOR_PRIMARY', '#2e405b', CONFIG)
-  const titleColor = siteConfig('TYPOGRAPHY_COLOR_TITLE', '#276077', CONFIG)
-
   return (
     <style jsx global>{`
       html {
@@ -51,11 +48,9 @@ const Style = () => {
       }
 
       #theme-typography {
-        --typography-color-primary: ${primaryColor};
-        --typography-color-title: ${titleColor};
-        --primary-color: var(--typography-color-primary);
+        --primary-color: #2e405b;
         background-color: rgb(255 255 255) / 1;
-        color: var(--typography-color-primary);
+        color: #2e405b;
         background-size: 7px 7px;
         text-shadow: 1px 1px 1px rgb(0 0 0 / 0.04);
         background-image: linear-gradient(
@@ -77,14 +72,7 @@ const Style = () => {
       }
 
       #theme-typography .blog-item-title {
-        color: var(--typography-color-title);
-      }
-
-      #theme-typography .text-blue-600,
-      #theme-typography .dark\\:text-blue-300,
-      #theme-typography span[class*='hover:text-red-400']:hover,
-      #theme-typography a[class*='hover:text-red-400']:hover {
-        color: var(--typography-color-primary) !important;
+        color: #276077;
       }
 
       .dark #theme-typography .blog-item-title {
@@ -100,7 +88,9 @@ const Style = () => {
         -ms-overflow-style: none; /* IE and Edge */
         scrollbar-width: none; /* Firefox */
       }
-    `}</style>
+
+      ${themeConsoleStyle('typography', CONFIG)}
+  `}</style>
   )
 }
 

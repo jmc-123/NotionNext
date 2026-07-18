@@ -1,32 +1,21 @@
 /* eslint-disable react/no-unknown-property */
-import { siteConfig } from '@/lib/config'
-import { buildThemePrimaryCss } from '@/lib/themeColorCss'
 import CONFIG from './config'
+import { themeConsoleStyle } from '@/lib/themeConsoleStyle'
 /**
  * 此处样式只对当前主题生效
  * 此处不支持tailwindCSS的 @apply 语法
  * @returns
  */
 const Style = () => {
-  const backgroundColor = siteConfig('GAME_COLOR_BG', '#ffffff', CONFIG)
-  const scrollbarColor = siteConfig('GAME_COLOR_SCROLLBAR', '#4e4e4e', CONFIG)
-  const primaryColor = siteConfig('GAME_COLOR_PRIMARY', '#22c55e', CONFIG)
-
   return (
     <style jsx global>{`
-      #theme-game {
-        --game-color-bg: ${backgroundColor};
-        --game-color-scrollbar: ${scrollbarColor};
-        --game-color-primary: ${primaryColor};
-      }
-
       // 底色
       .dark body {
         background-color: black;
       }
 
       body {
-        background-color: ${backgroundColor};
+        background-color: #ffffff;
       }
 
       /* 自定义滚动条样式（适用于 Chrome、Safari 和 Edge） */
@@ -39,15 +28,11 @@ const Style = () => {
       }
 
       html::-webkit-scrollbar-thumb {
-        background: var(--game-color-scrollbar);
+        background: #4e4e4e;
       }
 
-      #theme-game div[class*='hover:bg-green-500']:hover {
-        background-color: var(--game-color-primary) !important;
-      }
-
-      ${buildThemePrimaryCss('#theme-game', '--game-color-primary')}
-    `}</style>
+      ${themeConsoleStyle('game', CONFIG)}
+  `}</style>
   )
 }
 

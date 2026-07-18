@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unknown-property */
-import { siteConfig } from '@/lib/config'
 import CONFIG from './config'
+import { themeConsoleStyle } from '@/lib/themeConsoleStyle'
 
 /**
  * 此处样式只对当前主题生效
@@ -8,18 +8,7 @@ import CONFIG from './config'
  * @returns
  */
 const Style = () => {
-  const primaryColor = siteConfig('STARTER_COLOR_PRIMARY', '#3758f9', CONFIG)
-  const primaryHoverColor = siteConfig('STARTER_COLOR_PRIMARY_HOVER', '#1b44c8', CONFIG)
-  const darkColor = siteConfig('STARTER_COLOR_DARK', '#111928', CONFIG)
-  const mutedTextColor = siteConfig('STARTER_COLOR_TEXT_MUTED', '#637381', CONFIG)
-
   return <style jsx global>{`
-  #theme-starter {
-    --starter-color-primary: ${primaryColor};
-    --starter-color-primary-hover: ${primaryHoverColor};
-    --starter-color-dark: ${darkColor};
-    --starter-color-text-muted: ${mutedTextColor};
-  }
 
   #theme-starter .sticky{
     position: fixed;
@@ -31,37 +20,37 @@ const Style = () => {
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
   }
-  
+
   :is(.dark #theme-starter .sticky){
     background-color: rgb(17 25 40 / 0.8);
   }
-  
+
   #theme-starter .sticky {
     -webkit-backdrop-filter: blur(5px);
             backdrop-filter: blur(5px);
     box-shadow: inset 0 -1px 0 0 rgba(0, 0, 0, 0.1);
   }
-  
+
   #theme-starter .sticky .navbar-logo{
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
   }
-  
+
   #theme-starter .sticky #navbarToggler span{
     --tw-bg-opacity: 1;
     background-color: rgb(17 25 40 / var(--tw-bg-opacity));
   }
-  
+
   :is(.dark #theme-starter .sticky #navbarToggler span){
     --tw-bg-opacity: 1;
     background-color: rgb(255 255 255 / var(--tw-bg-opacity));
   }
-  
+
   #theme-starter .sticky #navbarCollapse li > a{
     --tw-text-opacity: 1;
     color: rgb(17 25 40 / var(--tw-text-opacity));
   }
-  
+
   #theme-starter .sticky #navbarCollapse li > a:hover{
     --tw-text-opacity: 1;
     color: rgb(55 88 249 / var(--tw-text-opacity));
@@ -72,12 +61,12 @@ const Style = () => {
     --tw-text-opacity: 1;
     color: rgb(17 25 40 / var(--tw-text-opacity));
   }
-  
+
   :is(.dark #theme-starter .sticky #navbarCollapse li > a){
     --tw-text-opacity: 1;
     color: rgb(255 255 255 / var(--tw-text-opacity));
   }
-  
+
   :is(.dark #theme-starter .sticky #navbarCollapse li > a:hover){
     --tw-text-opacity: 1;
     color: rgb(55 88 249 / var(--tw-text-opacity));
@@ -91,85 +80,85 @@ const Style = () => {
   #navbarCollapse li .ud-menu-scroll.active{
     opacity: 0.7;
   }
-  
+
   #theme-starter .sticky #navbarCollapse li .ud-menu-scroll.active{
     --tw-text-opacity: 1;
     color: rgb(55 88 249 / var(--tw-text-opacity));
     opacity: 1;
   }
-  
+
   #theme-starter .sticky .loginBtn{
     --tw-text-opacity: 1;
     color: rgb(17 25 40 / var(--tw-text-opacity));
   }
-  
+
   #theme-starter .sticky .loginBtn:hover{
     --tw-text-opacity: 1;
     color: rgb(55 88 249 / var(--tw-text-opacity));
     opacity: 1;
   }
-  
+
   :is(.dark #theme-starter .sticky .loginBtn){
     --tw-text-opacity: 1;
     color: rgb(255 255 255 / var(--tw-text-opacity));
   }
-  
+
   :is(.dark #theme-starter .sticky .loginBtn:hover){
     --tw-text-opacity: 1;
     color: rgb(55 88 249 / var(--tw-text-opacity));
   }
-  
+
   #theme-starter .sticky .signUpBtn{
     --tw-bg-opacity: 1;
     background-color: rgb(55 88 249 / var(--tw-bg-opacity));
     --tw-text-opacity: 1;
     color: rgb(255 255 255 / var(--tw-text-opacity));
   }
-  
+
   #theme-starter .sticky .signUpBtn:hover{
     --tw-bg-opacity: 1;
     background-color: rgb(27 68 200 / var(--tw-bg-opacity));
     --tw-text-opacity: 1;
     color: rgb(255 255 255 / var(--tw-text-opacity));
   }
-  
+
   #theme-starter .sticky #themeSwitcher ~ span{
     --tw-text-opacity: 1;
     color: rgb(17 25 40 / var(--tw-text-opacity));
   }
-  
+
   :is(.dark #theme-starter .sticky #themeSwitcher ~ span){
     --tw-text-opacity: 1;
     color: rgb(255 255 255 / var(--tw-text-opacity));
   }
-  
+
   .navbarTogglerActive > span:nth-child(1){
     top: 7px;
     --tw-rotate: 45deg;
     transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
   }
-  
+
   .navbarTogglerActive > span:nth-child(2){
     opacity: 0;
   }
-  
+
   .navbarTogglerActive > span:nth-child(3){
     top: -8px;
     --tw-rotate: 135deg;
     transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
   }
-  
+
   .text-body-color{
     --tw-text-opacity: 1;
     color: rgb(99 115 129 / var(--tw-text-opacity));
   }
-  
+
   .text-body-secondary{
     --tw-text-opacity: 1;
     color: rgb(136 153 168 / var(--tw-text-opacity));
   }
 
-  
+
 .common-carousel .swiper-button-next:after,
 .common-carousel .swiper-button-prev:after{
   display: none;
@@ -204,7 +193,7 @@ const Style = () => {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
-:is(.dark .common-carousel .swiper-button-next),:is(.dark 
+:is(.dark .common-carousel .swiper-button-next),:is(.dark
 .common-carousel .swiper-button-prev){
   --tw-bg-opacity: 1;
   background-color: rgb(17 25 40 / var(--tw-bg-opacity));
@@ -223,42 +212,14 @@ const Style = () => {
     max-width: 64rem;
   }
 
-  #theme-starter .bg-primary,
-  #theme-starter .signUpBtn,
-  #theme-starter .common-carousel .swiper-button-next:hover,
-  #theme-starter .common-carousel .swiper-button-prev:hover {
-    background-color: var(--starter-color-primary) !important;
-  }
-
-  #theme-starter .hover\\:bg-primary:hover,
-  #theme-starter .hover\\:bg-blue-dark:hover,
-  #theme-starter .signUpBtn:hover {
-    background-color: var(--starter-color-primary-hover) !important;
-  }
-
-  #theme-starter .text-primary,
-  #theme-starter .hover\\:text-primary:hover,
-  #theme-starter .sticky #navbarCollapse li > a:hover,
-  #theme-starter .sticky #navbarCollapse li .ud-menu-scroll.active,
-  #theme-starter .sticky .loginBtn:hover {
-    color: var(--starter-color-primary) !important;
-  }
-
-  #theme-starter .bg-dark,
-  #theme-starter .dark\\:bg-dark:is(.dark *) {
-    background-color: var(--starter-color-dark) !important;
-  }
-
-  #theme-starter .text-body-color {
-    color: var(--starter-color-text-muted) !important;
-  }
-
   /* 全站 container：xl 及以上略窄于满屏，接近主题默认版心（1140px） */
   @media (min-width: 1140px) {
     #theme-starter .container {
       max-width: 72rem;
     }
   }
+
+      ${themeConsoleStyle('starter', CONFIG)}
   `}</style>
 }
 

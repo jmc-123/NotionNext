@@ -34,7 +34,7 @@
 
 ### Landing 主题调色
 
-Landing 主题可通过 `LANDING_COLOR_PRIMARY` 调整主色：
+Landing 主题可通过 `LANDING_COLOR_PRIMARY` 调整强调色：
 
 ```js
 LANDING_COLOR_PRIMARY: '#ef4444'
@@ -48,7 +48,7 @@ LANDING_COLOR_PRIMARY: '#ef4444'
 
 | 配置键 | 说明 |
 | --- | --- |
-| `LANDING_COLOR_PRIMARY` | 主色 |
+| `LANDING_COLOR_PRIMARY` | 主题强调色 |
 | `LANDING_HEADER_BUTTON_1_TITLE` | 见 config.js |
 | `LANDING_HEADER_BUTTON_1_URL` | 见 config.js |
 | `LANDING_HEADER_BUTTON_2_TITLE` | 见 config.js |

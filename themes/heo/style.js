@@ -1,46 +1,117 @@
 /* eslint-disable react/no-unknown-property */
-import { siteConfig } from '@/lib/config'
 import CONFIG from './config'
+import { themeConsoleStyle } from '@/lib/themeConsoleStyle'
 /**
  * 此处样式只对当前主题生效
  * 此处不支持tailwindCSS的 @apply 语法
  * @returns
  */
 const Style = () => {
-  const primary = siteConfig('HEO_COLOR_PRIMARY', '#4f65f0', CONFIG)
-  const primaryHover = siteConfig('HEO_COLOR_PRIMARY_HOVER', '#4f46e5', CONFIG)
-  const primaryText = siteConfig('HEO_COLOR_PRIMARY_TEXT', '#ffffff', CONFIG)
-  const accent = siteConfig('HEO_COLOR_ACCENT', '#dca846', CONFIG)
-  const bg = siteConfig('HEO_COLOR_BG', '#f7f9fe', CONFIG)
-  const bgDark = siteConfig('HEO_COLOR_BG_DARK', '#18171d', CONFIG)
-  const card = siteConfig('HEO_COLOR_CARD', '#ffffff', CONFIG)
-  const cardDark = siteConfig('HEO_COLOR_CARD_DARK', '#1e1e1e', CONFIG)
-  const cardMuted = siteConfig('HEO_COLOR_CARD_MUTED', '#f1f3f8', CONFIG)
-  const border = siteConfig('HEO_COLOR_BORDER', '#4f46e5', CONFIG)
-  const borderDark = siteConfig('HEO_COLOR_BORDER_DARK', '#dca846', CONFIG)
-  const text = siteConfig('HEO_COLOR_TEXT', '#111827', CONFIG)
-  const textSecondary = siteConfig('HEO_COLOR_TEXT_SECONDARY', '#4b5563', CONFIG)
-
   return (
     <style jsx global>{`
       #theme-heo {
-        --heo-color-primary: ${primary};
-        --heo-color-primary-hover: ${primaryHover};
-        --heo-color-primary-text: ${primaryText};
-        --heo-color-accent: ${accent};
-        --heo-color-bg: ${bg};
-        --heo-color-bg-dark: ${bgDark};
-        --heo-color-card: ${card};
-        --heo-color-card-dark: ${cardDark};
-        --heo-color-card-muted: ${cardMuted};
-        --heo-color-border: ${border};
-        --heo-color-border-dark: ${borderDark};
-        --heo-color-text: ${text};
-        --heo-color-text-secondary: ${textSecondary};
+        --heo-color-primary: #4f65f0;
+        --heo-color-primary-hover: #4f46e5;
+        --heo-color-primary-text: #ffffff;
+        --heo-color-accent: #ca8a04;
+        --heo-color-bg: #f7f9fe;
+        --heo-color-bg-dark: #18171d;
+        --heo-color-card: #ffffff;
+        --heo-color-card-dark: #1e1e1e;
+        --heo-color-card-muted: #f1f3f8;
+        --heo-color-border: #4f46e5;
+        --heo-color-border-dark: #ca8a04;
+        --heo-color-text-light: #000000;
+        --heo-color-text-secondary-light: #4b5563;
+        --heo-color-text-dark: #f3f4f6;
+        --heo-color-text-secondary-dark: #d1d5db;
+        --heo-color-text: var(--heo-color-text-light);
+        --heo-color-text-secondary: var(--heo-color-text-secondary-light);
+        background-color: var(--heo-color-bg);
+        color: var(--heo-color-text);
+      }
+
+      .dark #theme-heo {
+        --heo-color-text: var(--heo-color-text-dark);
+        --heo-color-text-secondary: var(--heo-color-text-secondary-dark);
+        background-color: var(--heo-color-bg-dark);
+      }
+
+      html:not(.dark) #theme-heo .bg-white {
+        background-color: var(--heo-color-card);
+      }
+
+      .dark #theme-heo .dark\:bg-\[\#18171d\] {
+        background-color: var(--heo-color-bg-dark);
+      }
+
+      .dark #theme-heo .dark\:bg-\[\#1e1e1e\] {
+        background-color: var(--heo-color-card-dark);
+      }
+
+      #theme-heo .bg-\[\#4f65f0\] {
+        background-color: var(--heo-color-primary);
+      }
+
+      #theme-heo .bg-\[\#f1f3f8\] {
+        background-color: var(--heo-color-card-muted);
+      }
+
+      #theme-heo .bg-indigo-600,
+      #theme-heo .hover\:bg-indigo-600:hover {
+        background-color: var(--heo-color-primary-hover);
+      }
+
+      .dark #theme-heo .dark\:bg-yellow-600,
+      .dark #theme-heo .dark\:hover\:bg-yellow-600:hover {
+        background-color: var(--heo-color-accent);
+      }
+
+      #theme-heo .text-white {
+        color: var(--heo-color-primary-text);
+      }
+
+      html:not(.dark) #theme-heo .text-black {
+        color: var(--heo-color-text);
+      }
+
+      html:not(.dark) #theme-heo .text-gray-600 {
+        color: var(--heo-color-text-secondary);
+      }
+
+      #theme-heo .hover\:text-indigo-600:hover,
+      #theme-heo .group:hover .group-hover\:text-indigo-600 {
+        color: var(--heo-color-primary-hover);
+      }
+
+      #theme-heo .hover\:border-indigo-600:hover {
+        border-color: var(--heo-color-border);
+      }
+
+      .dark #theme-heo .dark\:hover\:border-yellow-600:hover {
+        border-color: var(--heo-color-border-dark);
+      }
+
+      .dark #theme-heo #notion-article .notion-external-block,
+      #theme-heo.dark #notion-article .notion-external-block {
+        background: var(--heo-color-card-dark) !important;
+        border-color: var(--heo-color-border-dark) !important;
+      }
+
+      .dark #theme-heo #notion-article .notion-external-title,
+      #theme-heo.dark #notion-article .notion-external-title {
+        color: var(--heo-color-text-dark) !important;
+      }
+
+      .dark #theme-heo #notion-article .notion-external-subtitle,
+      .dark #theme-heo #notion-article .notion-external-block-desc,
+      #theme-heo.dark #notion-article .notion-external-subtitle,
+      #theme-heo.dark #notion-article .notion-external-block-desc {
+        color: var(--heo-color-text-secondary-dark) !important;
       }
 
       body {
-        background-color: var(--heo-color-bg);
+        background-color: #f7f9fe;
       }
 
       // 公告栏中的字体固定白色
@@ -93,7 +164,9 @@ const Style = () => {
           transform: translateX(-50%);
         }
       }
-    `}</style>
+
+      ${themeConsoleStyle('heo', CONFIG)}
+  `}</style>
   )
 }
 

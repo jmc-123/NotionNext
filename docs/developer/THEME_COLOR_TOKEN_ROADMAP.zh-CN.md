@@ -4,7 +4,7 @@
 
 ## 目标
 
-- 所有主题逐步从 Tailwind 固定色名迁移到语义色变量。
+- 所有内置主题逐步从 Tailwind 固定色名迁移到语义色变量，并最终具备可独立调整的浅色、深色两套调色板。
 - 每个主题维护自己的颜色配置键，例如 `HEO_COLOR_PRIMARY`、`HEXO_COLOR_PRIMARY`；已有成熟模型可保留语义明确的旧键，例如 `FUWARI_THEME_COLOR_HUE`。
 - 每个主题在 `style.js` 中把配置键映射为主题作用域 CSS 变量。
 - 主题切换工具展示当前主题调色板，帮助用户复制配置键和值。
@@ -15,7 +15,7 @@
 
 - 不一次性重写所有主题。
 - 不用 `#theme-x .bg-indigo-600` 这类覆盖方式作为长期方案。
-- 不要求所有主题暴露同样数量的颜色。
+- 不要求所有主题暴露完全相同数量的扩展颜色，但必须满足下文的基础色契约。
 - 不立即强制引入全局 `THEME_COLOR_*`，先以主题独立配置为主。
 
 ## 命名规范
@@ -26,7 +26,6 @@
 HEO_COLOR_PRIMARY
 HEO_COLOR_PRIMARY_HOVER
 HEO_COLOR_PRIMARY_TEXT
-HEO_COLOR_PRIMARY_DARK
 HEO_COLOR_ACCENT
 HEO_COLOR_BG
 HEO_COLOR_CARD
@@ -56,17 +55,18 @@ className="bg-[var(--heo-color-primary)] text-[var(--heo-color-primary-text)]"
 | 语义 | 用途 |
 | --- | --- |
 | `PRIMARY` | 主按钮、选中态、重点链接 |
-| `PRIMARY_HOVER` | 主色：hover |
+| `PRIMARY_HOVER` | 主色 hover |
 | `PRIMARY_TEXT` | 主色背景上的文字 |
-| `PRIMARY_DARK` | 深色模式：主色 |
-| `ACCENT` | 辅助强调、徽标、装饰；不要用于深色模式主色命名 |
+| `ACCENT` | 辅助强调、徽标、装饰 |
 | `BG` | 页面背景 |
 | `CARD` | 卡片、面板、浮层 |
 | `BORDER` | 边框、分割线 |
 | `TEXT` | 标题和正文 |
 | `TEXT_SECONDARY` | 摘要、元信息、弱化文字 |
 
-轻量主题可以只实现 `PRIMARY`；复杂主题可扩展更多 token。
+所有内置主题的浅色和深色模式都至少实现 `PRIMARY`、`BG`、`CARD`、`TEXT`、`BORDER`；主题实际使用了次级文字、强调色或 hover 色时，也必须分别暴露对应 token。深色配置键统一追加 `_DARK`，例如 `HEO_COLOR_BG_DARK`。
+
+manifest 中出现配置项不等于完成支持。对应 CSS 变量必须被主题组件真实消费，控制台修改后立即生效；浅色和深色值必须相互独立，切换模式不能串用另一组色号。默认值必须与迁移前主题视觉一致。
 
 ## 调色板元数据
 
@@ -99,7 +99,7 @@ className="bg-[var(--heo-color-primary)] text-[var(--heo-color-primary-text)]"
 
 - [x] `heo` 增加 `HEO_COLOR_*` 默认配置。
 - [x] `heo/style.js` 映射主题作用域 CSS 变量。
-- [x] 替换 `heo` 中主色、深色模式主色、背景、卡片、边框、文字的明显硬编码用法。
+- [x] 替换 `heo` 中主色、强调色、背景、卡片、边框、文字的明显硬编码用法。
 - [ ] 保留视觉默认值，避免现有站点升级后明显变样。
 
 ### Phase 3：兼容已有主题色
@@ -120,6 +120,7 @@ className="bg-[var(--heo-color-primary)] text-[var(--heo-color-primary-text)]"
 
 - 已完成扩展样本：`heo`、`hexo`、`fuwari`、`next`、`simple`、`matery`、`medium`、`nobelium`、`plog`、`commerce`、`gitbook`、`typography`、`claude`、`fukasawa`、`nav`、`magzine`、`game`、`movie`、`photo`、`example`、`thoughtlite`、`starter`、`proxio`、`landing`、`endspace`。
 - [ ] 按主题逐个迁移色号。
+- [ ] 所有内置主题补齐浅色、深色两套基础色契约。
 - [ ] 每个主题保留自己的默认视觉风格。
 - [ ] 每个主题文档列出支持的颜色配置。
 - [ ] 主题总览标记调色板支持状态。
@@ -144,5 +145,7 @@ className="bg-[var(--heo-color-primary)] text-[var(--heo-color-primary-text)]"
 - 新增主题不再引入无语义的固定业务色名。
 - 已迁移主题的主要品牌色可以通过 Notion Config 覆盖。
 - 调色板工具能展示当前主题支持的色号。
+- 所有内置主题的调色板都至少展示两套 `PRIMARY`、`BG`、`CARD`、`TEXT`、`BORDER`，且每项实时生效。
+- 浅色和深色配置互不串色，主题默认配置与迁移前视觉一致。
 - 用户能从文档知道配置键、默认值和影响区域。
 - 旧配置不直接失效。
