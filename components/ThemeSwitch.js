@@ -125,6 +125,26 @@ function ThemeConsole ({ meta, onClose }) {
     return Math.round((hue * 60 + 360) % 360)
   }
 
+  const hueToHex = value => {
+    const hue = Number.parseInt(value, 10)
+    if (!Number.isFinite(hue)) return value
+    const h = Math.min(360, Math.max(0, hue))
+    const s = 0.85
+    const l = 0.62
+    const a = s * Math.min(l, 1 - l)
+    const f = n => {
+      const k = (n + h / 30) % 12
+      const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1)
+      return Math.round(255 * color).toString(16).padStart(2, '0')
+    }
+    return `#${f(0)}${f(8)}${f(4)}`
+  }
+
+  const getPreviewValue = (item, value) => {
+    if (item.key === 'FUWARI_THEME_COLOR_HUE') return hueToHex(value)
+    return value
+  }
+
   const getExportValue = item => {
     const value = values[item.key] || item.defaultValue
     if (item.key === 'FUWARI_THEME_COLOR_HUE') return hexToHue(value)
@@ -161,12 +181,13 @@ function ThemeConsole ({ meta, onClose }) {
   const darkPalette = palette.filter(isDarkPaletteItem)
 
   const updateItem = (item, value) => {
-    setValues(prev => ({ ...prev, [item.key]: value }))
+    const previewValue = getPreviewValue(item, value)
+    setValues(prev => ({ ...prev, [item.key]: previewValue }))
     const root = getRoot()
-    root.style.setProperty(item.cssVar, value)
+    root.style.setProperty(item.cssVar, previewValue)
     if (meta.id === 'fuwari' && item.cssVar === '--fuwari-primary') {
-      root.style.setProperty('--fuwari-primary-soft', `color-mix(in oklab, ${value} 14%, transparent)`)
-      root.style.setProperty('--fuwari-gradient', `linear-gradient(135deg, ${value} 0%, color-mix(in oklab, ${value} 70%, #ffffff) 100%)`)
+      root.style.setProperty('--fuwari-primary-soft', `color-mix(in oklab, ${previewValue} 14%, transparent)`)
+      root.style.setProperty('--fuwari-gradient', `linear-gradient(135deg, ${previewValue} 0%, color-mix(in oklab, ${previewValue} 70%, #ffffff) 100%)`)
     }
   }
 
