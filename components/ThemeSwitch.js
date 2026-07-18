@@ -1,4 +1,5 @@
 import { getThemeSwitchMeta } from '@/conf/themeSwitch.manifest'
+import { siteConfig } from '@/lib/config'
 import { useGlobal } from '@/lib/global'
 import { getQueryParam } from '@/lib/utils'
 import { THEMES } from '@/themes/theme'
@@ -26,7 +27,7 @@ function ThemeTierBadge ({ tier, labels }) {
 
 const EMPTY_CONSOLE_ITEMS = []
 
-function PaletteField ({ item, value, isHexColor, updateItem, resetItem, copyText }) {
+function PaletteField ({ item, value, copyValue, isHexColor, updateItem, resetItem, copyText }) {
   return (
     <div
       className='min-w-0 rounded-xl border border-gray-100 bg-white p-2 dark:border-gray-800 dark:bg-gray-950/70 sm:p-3'>
@@ -73,7 +74,7 @@ function PaletteField ({ item, value, isHexColor, updateItem, resetItem, copyTex
         />
         <button
           type='button'
-          onClick={() => void copyText(value, '配置值已复制到剪贴板')}
+          onClick={() => void copyText(copyValue, '配置值已复制到剪贴板')}
           className='flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-gray-200 text-gray-400 transition hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-600 dark:border-gray-700 dark:hover:border-indigo-600 dark:hover:bg-indigo-950/40 dark:hover:text-indigo-300'
           title='复制配置值'
           aria-label={`复制配置值 ${item.key}`}>
@@ -85,7 +86,7 @@ function PaletteField ({ item, value, isHexColor, updateItem, resetItem, copyTex
 }
 
 function ThemeConsole ({ meta, onClose }) {
-  const { updateRuntimeConfigOverride } = useGlobal()
+  const { updateRuntimeConfigOverride, THEME_CONFIG } = useGlobal()
   const [values, setValues] = useState({})
   const [palette, setPalette] = useState([])
   const [settingValues, setSettingValues] = useState({})
@@ -102,6 +103,32 @@ function ThemeConsole ({ meta, onClose }) {
     const text = String(value).trim()
     if (typeof value === 'boolean') return value ? 'true' : 'false'
     return /^-?\d+(\.\d+)?$/.test(text) ? text : `'${text}'`
+  }
+
+  const readSettingValue = item => siteConfig(item.key, item.defaultValue, THEME_CONFIG || {})
+
+  const hexToHue = value => {
+    const hex = String(value || '').trim().replace('#', '')
+    if (!/^[0-9a-f]{6}$/i.test(hex)) return value
+    const r = parseInt(hex.slice(0, 2), 16) / 255
+    const g = parseInt(hex.slice(2, 4), 16) / 255
+    const b = parseInt(hex.slice(4, 6), 16) / 255
+    const max = Math.max(r, g, b)
+    const min = Math.min(r, g, b)
+    const delta = max - min
+    if (delta === 0) return 0
+    const hue = max === r
+      ? ((g - b) / delta) % 6
+      : max === g
+        ? (b - r) / delta + 2
+        : (r - g) / delta + 4
+    return Math.round((hue * 60 + 360) % 360)
+  }
+
+  const getExportValue = item => {
+    const value = values[item.key] || item.defaultValue
+    if (item.key === 'FUWARI_THEME_COLOR_HUE') return hexToHue(value)
+    return value
   }
 
   const getRoot = () =>
@@ -179,7 +206,8 @@ function ThemeConsole ({ meta, onClose }) {
 
   const copyText = async (text, message = '配置已复制到剪贴板') => {
     try {
-      await navigator.clipboard?.writeText(String(text))
+      if (!navigator.clipboard?.writeText) throw new Error('Clipboard unavailable')
+      await navigator.clipboard.writeText(String(text))
       showNotice(message)
     } catch {
       showNotice('复制失败，请检查浏览器剪贴板权限')
@@ -188,12 +216,12 @@ function ThemeConsole ({ meta, onClose }) {
 
   const copyAll = () => {
     const settingText = settings.map(item => {
-      const value = settingValues[item.key] ?? item.defaultValue
+      const value = settingValues[item.key] ?? readSettingValue(item)
       return `${item.key}: ${formatConfigValue(value)}`
     })
     const paletteText = palette
       .map(item => {
-        const value = item.copyValue || values[item.key] || item.defaultValue
+        const value = getExportValue(item)
         return `${item.key}: ${formatConfigValue(value)}`
       })
     const text = settingText.concat(paletteText).join(',\n')
@@ -327,7 +355,7 @@ function ThemeConsole ({ meta, onClose }) {
             {openSections.settings && (
               <div className='grid grid-cols-1 gap-2 border-t border-gray-100 p-3 dark:border-gray-800 sm:grid-cols-2'>
                 {settings.length ? settings.map(item => {
-                  const value = settingValues[item.key] ?? item.defaultValue
+                  const value = settingValues[item.key] ?? readSettingValue(item)
                   return (
                     <div
                       key={item.key}
@@ -456,6 +484,7 @@ function ThemeConsole ({ meta, onClose }) {
                     key={item.key}
                     item={item}
                     value={values[item.key] || item.defaultValue}
+                    copyValue={getExportValue(item)}
                     isHexColor={isHexColor}
                     updateItem={updateItem}
                     resetItem={resetItem}
@@ -471,6 +500,7 @@ function ThemeConsole ({ meta, onClose }) {
                     key={item.key}
                     item={item}
                     value={values[item.key] || item.defaultValue}
+                    copyValue={getExportValue(item)}
                     isHexColor={isHexColor}
                     updateItem={updateItem}
                     resetItem={resetItem}

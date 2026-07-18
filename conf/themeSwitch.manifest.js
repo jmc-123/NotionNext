@@ -9,7 +9,7 @@
  * - tier    可选；'free' | 'paid'，缺省为 'free'。面板展示对应标签，为后续付费主题预留。
  */
 
-/** @type {Record<string, { name?: string, summary?: string, cover?: string, coverWebp?: string, rootId?: string, tier?: 'free' | 'paid', settings?: Array<{ key: string, label: string, type: 'boolean' | 'text' | 'number' | 'select', defaultValue: string | number | boolean, options?: Array<{ label: string, value: string | number | boolean }> }>, palette?: Array<{ key: string, cssVar: string, label: string, defaultValue: string, copyValue?: string }> }>} */
+/** @type {Record<string, { name?: string, summary?: string, cover?: string, coverWebp?: string, rootId?: string, tier?: 'free' | 'paid', settings?: Array<{ key: string, label: string, type: 'boolean' | 'text' | 'number' | 'select', defaultValue: string | number | boolean, options?: Array<{ label: string, value: string | number | boolean }> }>, palette?: Array<{ key: string, cssVar: string, label: string, defaultValue: string }> }>} */
 export const THEME_SWITCH_MANIFEST = {
   endspace: {
     name: 'Endspace',
@@ -135,7 +135,7 @@ export const THEME_SWITCH_MANIFEST = {
     name: 'Fuwari',
     summary: '日系轻量双栏与主题色板。',
     palette: [
-      { key: 'FUWARI_THEME_COLOR_HUE', cssVar: '--fuwari-primary', label: '主色色相', defaultValue: '#b8a320', copyValue: '52' }
+      { key: 'FUWARI_THEME_COLOR_HUE', cssVar: '--fuwari-primary', label: '主色色相', defaultValue: '#b8a320' }
     ]
   },
   fukasawa: {
@@ -495,7 +495,7 @@ function formatConfigLabel(key, themeId) {
 
 /**
  * @param {string} themeId themes 目录名
- * @returns {{ id: string, name: string, summary: string, coverPng: string, coverWebp: string | null, rootId: string | undefined, tier: 'free' | 'paid', settings: Array<{ key: string, label: string, type: 'boolean' | 'text' | 'number' | 'select', defaultValue: string | number | boolean, options?: Array<{ label: string, value: string | number | boolean }> }>, palette: Array<{ key: string, cssVar: string, label: string, defaultValue: string, copyValue?: string }> }}
+ * @returns {{ id: string, name: string, summary: string, coverPng: string, coverWebp: string | null, rootId: string | undefined, tier: 'free' | 'paid', settings: Array<{ key: string, label: string, type: 'boolean' | 'text' | 'number' | 'select', defaultValue: string | number | boolean, options?: Array<{ label: string, value: string | number | boolean }> }>, palette: Array<{ key: string, cssVar: string, label: string, defaultValue: string }> }}
  */
 export function getThemeSwitchMeta(themeId) {
   const id = themeId == null ? '' : String(themeId).trim()
