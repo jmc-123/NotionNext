@@ -53,7 +53,7 @@ export function normalizeRecord(page: BasePage): RecordItem {
     type: categoryLabelToType(page?.category),
     dateText: '',
     dateStatus: 'unknown',
-    cover: page?.pageCoverThumbnail || '',
+    cover: page?.cover || page?.pageCoverThumbnail || '',
     excerpt: page?.summary ?? '',
     tags: Array.isArray(page?.tags) ? page.tags : []
   }

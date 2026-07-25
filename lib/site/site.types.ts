@@ -52,6 +52,8 @@ export interface BasePage {
   date?: PageDate
   publishDate?: number
   lastEditedDate?: number
+  cover?: string
+  pageCover?: string
   pageCoverThumbnail?: string
   pageIcon?: string
   href?: string
