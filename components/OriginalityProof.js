@@ -1,5 +1,6 @@
 import { siteConfig } from '@/lib/config'
 import { formatOriginalityProofText } from '@/lib/utils/originalityProof'
+import { useState } from 'react'
 
 const formatProofTime = value => {
   if (!value) return ''
@@ -18,6 +19,8 @@ const labels = {
     hash: '哈希',
     proof: '凭证',
     copy: '复制证据',
+    copied: '已复制',
+    copyFailed: '请手动复制',
     note: '该信息用于辅助证明当前内容版本，不等同于法律公证或版权登记。'
   },
   en: {
@@ -29,11 +32,15 @@ const labels = {
     hash: 'Hash',
     proof: 'Proof',
     copy: 'Copy evidence',
+    copied: 'Copied',
+    copyFailed: 'Copy manually',
     note: 'This is supporting evidence for the current content version, not legal notarization or copyright registration.'
   }
 }
 
 export default function OriginalityProof({ proof }) {
+  const [copyStatus, setCopyStatus] = useState('')
+
   if (!proof?.hash) return null
   const t = String(siteConfig('LANG', 'zh-CN')).startsWith('zh')
     ? labels.zh
@@ -41,6 +48,17 @@ export default function OriginalityProof({ proof }) {
   const copyText = formatOriginalityProofText(proof)
   const providerLabel = proof.provider === 'external' ? t.external : t.local
   const shortHash = `${String(proof.hash).slice(0, 12)}...`
+  const copyProof = () => {
+    if (!navigator.clipboard) {
+      setCopyStatus(t.copyFailed)
+      return
+    }
+
+    void navigator.clipboard
+      .writeText(copyText)
+      .then(() => setCopyStatus(t.copied))
+      .catch(() => setCopyStatus(t.copyFailed))
+  }
 
   return (
     <details className='mt-8 rounded border border-gray-200 bg-gray-50 p-4 text-sm leading-7 text-gray-700 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300'>
@@ -78,10 +96,8 @@ export default function OriginalityProof({ proof }) {
       <button
         type='button'
         className='mt-3 rounded border border-gray-300 bg-white px-3 py-1 text-xs text-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700'
-        onClick={() => {
-          void navigator.clipboard?.writeText(copyText)
-        }}>
-        {t.copy}
+        onClick={copyProof}>
+        {copyStatus || t.copy}
       </button>
       <p className='mt-2 text-xs text-gray-500 dark:text-gray-400'>
         {t.note}
